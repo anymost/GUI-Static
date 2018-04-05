@@ -1,15 +1,31 @@
-import React, {Component} from 'react';
-import {HashRouter} from 'react-router-dom';
-import Nav from '../src/components/Nav';
-import './App.css';
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { HashRouter, Route } from 'react-router-dom';
+import Nav from './components/Nav';
+import Program from './views/Program';
+import Setting from './views/Setting';
+import 'normalize.css';
+import './static/css/common.css';
+import 'antd/dist/antd.css'
+
+const AppWrap = styled.div`
+    display: flex;
+`;
+
+const ViewWrap = styled.div`
+    flex: 1;
+`;
 
 class App extends Component {
     render() {
         return (
-            <div className="App">
+            <AppWrap>
                 <Nav/>
-
-            </div>
+                <ViewWrap>
+                    <Route path="/" component={Program} exact/>
+                    <Route path="/setting" component={Setting}/>
+                </ViewWrap>
+            </AppWrap>
         );
     }
 }
