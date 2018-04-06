@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavItem, NavWrap, LinkWrap, ProgramLogo, IconWrap} from "./NavStyle";
-import logo from '../logo.svg';
+import logo from '../../logo.svg';
 
 
 

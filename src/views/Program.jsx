@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
+import Nav from '../components/program/Nav'
 
 
 class Program extends Component {
     render() {
         return <div>
-            {JSON.stringify(this.props.match)}
-            {JSON.stringify(this.props.location)}
-            {JSON.stringify(this.props.history)}
+            <Nav/>
         </div>;
     }
 }

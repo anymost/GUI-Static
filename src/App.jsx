@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { HashRouter, Route } from 'react-router-dom';
-import Nav from './components/Nav';
+import Nav from './components/common/Nav';
 import Program from './views/Program';
 import Setting from './views/Setting';
 import 'normalize.css';
