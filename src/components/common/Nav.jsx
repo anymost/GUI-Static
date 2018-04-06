@@ -7,7 +7,7 @@ import logo from '../../logo.svg';
 function Nav() {
     return <NavWrap>
         <ProgramLogo>
-            <img src={logo} width="80px" height="80px"/>
+            <img src={logo} alt="logo" width="80px" height="80px"/>
         </ProgramLogo>
             <NavItem>
                 <IconWrap type="book"/>

@@ -50,7 +50,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "electron": "pm2 start scripts/build.js",
+    "electron": "webpack --watch --color --progress --config config/webpack.config.electron.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
