@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Menu, Icon } from 'antd';
-const { createProgram } = window.require('/Users/bradyzhang/Fine/GUI/renderer');
+import { showMessage } from '../../store/actions/message';
+import { GLOBAL_RENDERER } from '../../constant';
+const { createProgram } = window.require(GLOBAL_RENDERER);
+
 
 
 class Nav extends Component {
@@ -11,7 +15,7 @@ class Nav extends Component {
 
     }
     run() {
-
+        this.props.showMessage({type: 'info', content: 'hello world'});
     }
     build() {
         alert("hello");
@@ -19,16 +23,16 @@ class Nav extends Component {
 
     handleClick = ({key}) =>{
         switch(key) {
-            case 1:
+            case '1':
                 this.create();
                 break;
-            case 2:
+            case '2':
                 this.install();
                 break;
-            case 3:
+            case '3':
                 this.run();
                 break;
-            case 4:
+            case '4':
                 this.build();
                 break;
             default:
@@ -37,13 +41,14 @@ class Nav extends Component {
     };
     render() {
         return <Menu mode="horizontal" onClick={this.handleClick}>
-            <Menu.Item key={1} ><Icon type="profile" />创建项目</Menu.Item>
-            <Menu.Item key={2} ><Icon type="download"/>安装依赖</Menu.Item>
-            <Menu.Item key={3} ><Icon type="play-circle"/>运行项目</Menu.Item>
-            <Menu.Item key={4} ><Icon type="sync" />打包项目</Menu.Item>
+            <Menu.Item key="1" ><Icon type="profile" />创建项目</Menu.Item>
+            <Menu.Item key="2" ><Icon type="download"/>安装依赖</Menu.Item>
+            <Menu.Item key="3" ><Icon type="play-circle"/>运行项目</Menu.Item>
+            <Menu.Item key="4" ><Icon type="sync" />打包项目</Menu.Item>
         </Menu>;
     }
+
 }
 
 
-export default Nav;
+export default connect(() => ({}), { showMessage })(Nav);

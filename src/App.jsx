@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { HashRouter, Route } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import store from './store';
 import Nav from './components/common/Nav';
+import Message from './components/common/Message';
 import Program from './views/Program';
 import Setting from './views/Setting';
 import 'normalize.css';
@@ -21,6 +24,7 @@ class App extends Component {
         return (
             <AppWrap>
                 <Nav/>
+                <Message/>
                 <ViewWrap>
                     <Route path="/" component={Program} exact/>
                     <Route path="/setting" component={Setting}/>
@@ -31,9 +35,11 @@ class App extends Component {
 }
 
 const Wrap = () => {
-    return <HashRouter>
-        <App/>
-    </HashRouter>
+    return <Provider store={store}>
+        <HashRouter>
+            <App/>
+        </HashRouter>
+    </Provider>
 
 };
 
