@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Menu, Icon } from 'antd';
 import { showMessage } from '../../store/actions/message';
 import { GLOBAL_RENDERER } from '../../constant';
-const { createProgram } = window.require(GLOBAL_RENDERER);
+const { createProgram, installDependencies, runProgram, buildProgram } = window.require(GLOBAL_RENDERER);
 
 
 
@@ -12,13 +12,13 @@ class Nav extends Component {
         createProgram();
     };
     install() {
-
+        installDependencies();
     }
     run() {
-        this.props.showMessage({type: 'info', content: 'hello world'});
+        runProgram();
     }
     build() {
-        alert("hello");
+        buildProgram();
     };
 
     handleClick = ({key}) =>{
