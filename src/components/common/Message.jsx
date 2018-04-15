@@ -1,15 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { cleanMessage } from '../../store/actions/message';
-import { message as showMessage } from 'antd';
+import { GLOBAL_RENDERER} from '../../constant';
+import { cleanMessage, showMessage } from '../../store/actions/message';
+import { message as messageShow } from 'antd';
+const { handleMessage, handleError } = window.require(GLOBAL_RENDERER);
+
 
 
 class Message extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        showMessage.config({
-            duration: 1
+        messageShow.config({
+            duration: 3
         });
     }
     render() {
@@ -18,12 +21,21 @@ class Message extends React.Component {
     static getDerivedStateFromProps(nextProps) {
         const { message: { type, content }, cleanMessage } = nextProps;
         if (type && content) {
-            showMessage[type](content);
+            messageShow[type](content);
             setImmediate(() => cleanMessage());
         }
         return null;
     }
+    componentDidMount() {
+        const { showMessage } = this.props;
+        handleMessage(message => {
+            showMessage(message);
+        });
+        handleError(message => {
+            showMessage(message);
+        });
+    }
 
 }
 
-export default connect(({message}) => ({message}),{ cleanMessage })(Message);
+export default connect(({message}) => ({message}),{ cleanMessage, showMessage })(Message);

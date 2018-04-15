@@ -7,6 +7,7 @@ const initMessage = {
 
 export default function message(state = initMessage, action) {
     const { type, payload } = action;
+    console.log(action);
     switch(type) {
         case MESSAGE_SHOW:
             return {
