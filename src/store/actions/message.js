@@ -7,6 +7,6 @@ export function showMessage(payload) {
     };
 };
 
-export const cleanMessage = () => {
+export function cleanMessage() {
     return { type: MESSAGE_CLEAN }
 };

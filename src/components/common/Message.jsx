@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { GLOBAL_RENDERER} from '../../constant';
 import { cleanMessage, showMessage } from '../../store/actions/message';
 import { message as messageShow } from 'antd';
-const { handleMessage, handleError } = window.require(GLOBAL_RENDERER);
+const { HandleMessage, HandleError } = window.require(GLOBAL_RENDERER);
 
 
 
@@ -28,10 +28,10 @@ class Message extends React.Component {
     }
     componentDidMount() {
         const { showMessage } = this.props;
-        handleMessage(message => {
+        HandleMessage(message => {
             showMessage(message);
         });
-        handleError(message => {
+        HandleError(message => {
             showMessage(message);
         });
     }

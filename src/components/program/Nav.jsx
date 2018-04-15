@@ -1,54 +1,95 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Icon } from 'antd';
-import { showMessage } from '../../store/actions/message';
+import { BuildRunningIcon } from './Nav.style';
+import { changeProgramRunStatus, changeProgramBuildStatus, changeProgramInstallStatus }
+from '../../store/actions/program';
 import { GLOBAL_RENDERER } from '../../constant';
-const { createProgram, installDependencies, runProgram, buildProgram } = window.require(GLOBAL_RENDERER);
+const {
+    ProgramCreate,
+    ProgramInstall,
+    ProgramInstallStatus,
+    ProgramRun,
+    ProgramRunStatus,
+    ProgramBuild,
+    ProgramBuildStatus
+} = window.require(GLOBAL_RENDERER);
 
 
-
-class Nav extends Component {
-    create() {
-        createProgram();
-    };
-    install() {
-        installDependencies();
-    }
-    run() {
-        runProgram();
-    }
-    build() {
-        buildProgram();
-    };
-
-    handleClick = ({key}) =>{
-        switch(key) {
+class Nav extends React.Component {
+    handleClick = ({key}) => {
+        switch (key) {
             case '1':
-                this.create();
+                ProgramCreate();
                 break;
             case '2':
-                this.install();
+                ProgramInstall('start');
                 break;
             case '3':
-                this.run();
+                ProgramInstall('stop');
                 break;
             case '4':
-                this.build();
+                ProgramRun('start');
+                break;
+            case '5':
+                ProgramRun('stop');
+                break;
+            case '6':
+                ProgramBuild('start');
+                break;
+            case '7':
+                ProgramBuild('stop');
                 break;
             default:
-                this.create();
+                ProgramCreate();
+                break;
         }
     };
+
     render() {
+        const { programStatus: { installStatus, runStatus, buildStatus }} = this.props;
         return <Menu mode="horizontal" onClick={this.handleClick}>
-            <Menu.Item key="1" ><Icon type="profile" />创建项目</Menu.Item>
-            <Menu.Item key="2" ><Icon type="download"/>安装依赖</Menu.Item>
-            <Menu.Item key="3" ><Icon type="play-circle"/>运行项目</Menu.Item>
-            <Menu.Item key="4" ><Icon type="sync" />打包项目</Menu.Item>
+            <Menu.Item key="1"><Icon type="profile"/>创建项目</Menu.Item>
+            {   installStatus === 'stopped' ?
+                <Menu.Item key="2"><Icon type="download"/>安装依赖</Menu.Item>:
+                <Menu.Item key="3"><Icon type="download"/>停止安装</Menu.Item>
+            }
+
+            {
+                runStatus === 'stopped' ?
+                <Menu.Item key="4"><Icon type="play-circle"/>运行项目</Menu.Item> :
+                <Menu.Item key="5"><Icon type="pause-circle" />停止运行</Menu.Item>
+            }
+
+            {
+                buildStatus === 'stopped' ?
+                <Menu.Item key="6"><Icon type="sync"/>编译项目</Menu.Item> :
+                <Menu.Item key="7"><BuildRunningIcon type="sync"/>停止编译</Menu.Item>
+            }
         </Menu>;
     }
 
+    componentDidMount() {
+        const {
+            changeProgramRunStatus,
+            changeProgramBuildStatus,
+            changeProgramInstallStatus
+        } = this.props;
+        ProgramInstallStatus(status => {
+            changeProgramInstallStatus(status);
+        });
+        ProgramRunStatus(status => {
+            changeProgramRunStatus(status);
+        });
+        ProgramBuildStatus(status => {
+            changeProgramBuildStatus(status);
+        });
+
+    }
 }
 
 
-export default connect(() => ({}), { showMessage })(Nav);
+export default connect(
+        ({ programStatus }) => ({ programStatus }),
+        { changeProgramRunStatus, changeProgramBuildStatus, changeProgramInstallStatus}
+    )(Nav);
