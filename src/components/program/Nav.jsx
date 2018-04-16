@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Modal, Input, Button } from 'antd';
 import { BuildRunningIcon, InstallingIcon } from './Nav.style';
 import { changeProgramRunStatus, changeProgramBuildStatus, changeProgramInstallStatus }
 from '../../store/actions/program';
@@ -17,10 +17,13 @@ const {
 
 
 class Nav extends React.Component {
+    state = {
+        programName: ''
+    };
     handleClick = ({key}) => {
         switch (key) {
             case '1':
-                ProgramCreate();
+                this.showCreateModal();
                 break;
             case '2':
                 ProgramInstall('start');
@@ -45,6 +48,41 @@ class Nav extends React.Component {
                 break;
         }
     };
+
+    setProgramName = (event) => {
+        console.log(event.target.value);
+        this.setState({
+            programName: event.target.value
+        })
+    };
+
+    showCreateModal = () => {
+        // ProgramCreate();
+        const self = this;
+        Modal.confirm({
+            title: '创建项目',
+            content: (
+                <div>
+                    <Input size="small" placeholder="请输入项目名" onChange={self.setProgramName}
+                        value={self.state.programName}
+                    />
+                    <Button size="small">请选择文件夹</Button>
+                </div>
+            ),
+            onOk() {
+                if (self.state.programName) {
+                    ProgramCreate(self.state.programName);
+                    console.log(self.state.programName);
+                }
+            },
+            onCancel() {
+                self.setState({
+                    programName: ''
+                });
+            }
+        })
+    };
+
 
     render() {
         const { programStatus: { installStatus, runStatus, buildStatus }} = this.props;
