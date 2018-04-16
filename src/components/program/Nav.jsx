@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Icon } from 'antd';
-import { BuildRunningIcon } from './Nav.style';
+import { BuildRunningIcon, InstallingIcon } from './Nav.style';
 import { changeProgramRunStatus, changeProgramBuildStatus, changeProgramInstallStatus }
 from '../../store/actions/program';
 import { GLOBAL_RENDERER } from '../../constant';
@@ -52,7 +52,7 @@ class Nav extends React.Component {
             <Menu.Item key="1"><Icon type="profile"/>创建项目</Menu.Item>
             {   installStatus === 'stopped' ?
                 <Menu.Item key="2"><Icon type="download"/>安装依赖</Menu.Item>:
-                <Menu.Item key="3"><Icon type="download"/>停止安装</Menu.Item>
+                <Menu.Item key="3"><InstallingIcon type="download"/>停止安装</Menu.Item>
             }
 
             {
