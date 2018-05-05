@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Icon, Input, Button } from 'antd';
+import { Menu, Icon } from 'antd';
 import { BuildRunningIcon, InstallingIcon } from './Nav.style';
 import CreateModal from './CreateModal';
+import ProgramList from './ProgramList';
 import { changeProgramRunStatus, changeProgramBuildStatus, changeProgramInstallStatus }
 from '../../store/actions/program';
 import { GLOBAL_RENDERER } from '../../constant';
@@ -27,6 +28,7 @@ class Nav extends React.Component {
         programName: '',
         path: ''
     };
+
     handleClick = ({key}) => {
         switch (key) {
             case '1':
@@ -50,8 +52,11 @@ class Nav extends React.Component {
             case '7':
                 ProgramBuild('stop');
                 break;
+            default:
+                break;
         }
     };
+
     changeModalDisplay = (display) => {
         this.setState({
             isModalShow: display
@@ -68,25 +73,44 @@ class Nav extends React.Component {
         DirectorySelectStart();
     };
 
-    createProgram = () => {
+    removePath = () => {
+        this.setState({
+            path: ''
+        })
+    };
+
+    cancelCreate = () => {
         this.changeModalDisplay(false);
+        this.setState({
+            path: '',
+            programName: ''
+        })
+    };
+
+    createProgram = () => {
         ProgramCreate({
             path: this.state.path,
             name: this.state.programName
         });
+        this.cancelCreate();
     };
 
     render() {
         const { programStatus: { installStatus, runStatus, buildStatus }} = this.props;
         return <div>
             {   this.state.isModalShow &&
-                <CreateModal programName={this.state.programName} setProgramName={this.setProgramName}
-                    onCancel={this.changeModalDisplay.bind(this, false)} onOk={this.createProgram}
-                    selectDirectory={this.selectDirectory}
+                <CreateModal programName={this.state.programName} path={this.state.path}
+                    setProgramName={this.setProgramName} selectDirectory={this.selectDirectory}
+                    removePath={this.removePath} onCancel={this.cancelCreate} onOk={this.createProgram}
                 />
             }
             <Menu mode="horizontal" onClick={this.handleClick}>
-                <Menu.Item key="1"><Icon type="profile"/>创建项目</Menu.Item>
+                <Menu.Item key="0" style={{width: '240px'}}>
+                    当前项目 <ProgramList/>
+                </Menu.Item>
+                <Menu.Item key="1">
+                    <Icon type="profile"/>创建项目
+                </Menu.Item>
                 {   installStatus === 'stopped' ?
                     <Menu.Item key="2"><Icon type="download"/>安装依赖</Menu.Item>:
                     <Menu.Item key="3"><InstallingIcon type="download"/>停止安装</Menu.Item>
@@ -124,7 +148,7 @@ class Nav extends React.Component {
         });
 
         DirectorySelectDone(path => {
-             this.setState({ path });
+            this.setState({ path });
         });
     }
 }
