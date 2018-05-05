@@ -24,7 +24,8 @@ const {
 class Nav extends React.Component {
     state = {
         isModalShow: false,
-        programName: ''
+        programName: '',
+        path: ''
     };
     handleClick = ({key}) => {
         switch (key) {
@@ -67,6 +68,13 @@ class Nav extends React.Component {
         DirectorySelectStart();
     };
 
+    createProgram = () => {
+        this.changeModalDisplay(false);
+        ProgramCreate({
+            path: this.state.path,
+            name: this.state.programName
+        });
+    };
 
     render() {
         const { programStatus: { installStatus, runStatus, buildStatus }} = this.props;
@@ -116,11 +124,7 @@ class Nav extends React.Component {
         });
 
         DirectorySelectDone(path => {
-             const self = this;
-             ProgramCreate({
-                 path: path,
-                 name: self.state.programName
-             });
+             this.setState({ path });
         });
     }
 }
