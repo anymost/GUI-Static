@@ -1,7 +1,6 @@
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 
-const rootEpics = combineEpics();
+export const rootEpics = combineEpics();
 
-const middleware = createEpicMiddleware(rootEpics);
+export const epicMiddleware = createEpicMiddleware();
 
-export default middleware;

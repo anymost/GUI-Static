@@ -28,4 +28,3 @@ PathComponent.propTypes = {
 };
 
 export default PathComponent;
-

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Icon } from 'antd';
-import { BuildRunningIcon, InstallingIcon } from './Nav.style';
-import CreateModal from './CreateModal';
+import { BuildRunningIcon, InstallingIcon } from './ProgramNav.style';
+import CreateModal from './dialog/CreateModal';
 import ProgramList from './ProgramList';
 import { changeProgramRunStatus, changeProgramBuildStatus, changeProgramInstallStatus }
 from '../../store/actions/program';
@@ -22,7 +22,7 @@ const {
 
 
 
-class Nav extends React.Component {
+class ProgramNav extends React.Component {
     state = {
         isModalShow: false,
         programName: '',
@@ -105,7 +105,7 @@ class Nav extends React.Component {
                 />
             }
             <Menu mode="horizontal" onClick={this.handleClick}>
-                <Menu.Item key="0" style={{width: '240px'}}>
+                <Menu.Item key="0" style={{width: '220px'}}>
                     当前项目 <ProgramList/>
                 </Menu.Item>
                 <Menu.Item key="1">
@@ -157,4 +157,4 @@ class Nav extends React.Component {
 export default connect(
         ({ programStatus }) => ({ programStatus }),
         { changeProgramRunStatus, changeProgramBuildStatus, changeProgramInstallStatus}
-    )(Nav);
+    )(ProgramNav);
