@@ -68,6 +68,7 @@ class  ProgramList extends Component {
         });
 
         ProgramInfo((info) => {
+            console.log(info);
             this.setState({
                 currentProgram: info.current,
                 programList: info.list
